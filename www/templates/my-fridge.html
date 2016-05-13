@@ -1,0 +1,46 @@
+
+<ion-view view-title="My Fridge">
+  <ion-content class="padding">
+
+    <!--FRIDGE CONTENTS SELECTION-->
+    <div class="card" ng-hide="searchCompleted">
+      <div class="item item-text-wrap">
+        <p>Enter current ingredients in your fridge</p>
+        <div class="line"></div>
+        <div class="list no-margin">
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Meat</span>
+            <input type="text" placeholder="Beef, Chicken, Bacon...">
+          </label>
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Dairy</span>
+            <input type="text" placeholder="Cheese, Milk, Eggs...">
+          </label>
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Vegetables</span>
+            <input type="text" placeholder="Carrots, Celery, Onion">
+          </label>
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Condiments</span>
+            <input type="text" placeholder="Hot sauce, Ketchup, Mustard...">
+          </label>
+        </div>
+        <div class="line"></div>
+          <button 
+            class="button button-stable button-block" 
+            ng-click="pagNext()">Find Recipes!
+          </button>
+          <div class="center">
+            <a ng-click="goToDash()" class="pointer">Back</a>
+          </div>
+      </div>
+    </div>
+
+      <!--FRIDGE CONTENTS SELECTION-->
+<!--     <div class="card" ng-hide="searchCompleted">
+      <div class="item item-text-wrap">
+        <p>Find recipes based on the ingredients you currently have in your fridge!</p>
+      </div>
+    </div> -->
+  </ion-content>
+</ion-view> 
