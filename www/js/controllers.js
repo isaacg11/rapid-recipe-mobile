@@ -9,13 +9,12 @@ angular.module('starter.controllers', [])
   $state, 
   Food,
   $ionicScrollDelegate
-  ) {
+  ) {  
 
-//GLOBAL VARS
+//SEARCH BY TEXT
   var page = 1;
   var data;
 
-//SEARCH BY TEXT
   $scope.search = function(query) {
     $ionicLoading.show({
       template: 'Loading...'
@@ -134,8 +133,63 @@ angular.module('starter.controllers', [])
     $scope.signupModal.show();
   };
 
+//NAVIGATE TO MY FRIDGE
   $scope.goToMyFridge = function() {
     $state.go('myFridge');
+  };
+
+//RANDOM RECIPE
+  var ingredients,
+      num;
+
+  $scope.random = function() {
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
+
+    ingredients = [
+      "beef",
+      "chicken", 
+      "pork", 
+      "fish", 
+      "lettuce", 
+      "cheese", 
+      "eggs", 
+      "tomatoes",
+      "onions",
+      "potatoes",
+      "apple",
+      "pasta",
+      "strawberry",
+      "chocolate",
+      "bread",
+      "rice",
+      "beans",
+      "corn",
+      "ice cream"
+    ];
+
+    for(var i = 0; i < ingredients.length; i++) {
+      num = Math.floor((Math.random() * 18) + 1);
+    } 
+
+    data = {
+      query : ingredients[num],
+      page: 1
+    };
+
+    Food.getRecipes(data).then(function(res){
+      $scope.recipes = res.body.recipes;
+      $scope.searchCompleted = true;
+      $scope.next = true;
+      $ionicLoading.hide();
+    });
+  };
+
+
+//RESET SEARCH
+  $scope.reset = function() {
+    $scope.searchCompleted = false;
   };
 
 })
@@ -161,7 +215,7 @@ $scope.fridgeSearch = function(ingredient) {
   $ionicLoading.show({
     template: 'Loading...'
   }); 
-  combinedIngredients = ingredient.meat+","+ingredient.dairy+","+ingredient.vegetables+","+ingredient.condiments;
+  combinedIngredients = ingredient.meat+","+ingredient.dairy+","+ingredient.vegetables+","+ingredient.grains+","+ingredient.condiments;
 
   data = {
     query : combinedIngredients,
@@ -227,9 +281,9 @@ $scope.fridgeSearch = function(ingredient) {
   };
 
 
-  $scope.goToMyFridge = function() {
+  $scope.backToMyFridge = function() {
     $scope.fridgeSearchCompleted = false;
-    
+
   };
 
   $scope.goToDash = function() {

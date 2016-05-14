@@ -34,18 +34,15 @@
       </div>
     </div>
   </div>
-<!--OPTIONS-->
-  <div class="card" ng-hide="searchCompleted">
-    <div class="item item-text-wrap">
-      <button 
-        class="button button-stable button-block icon-left ion-android-restaurant" 
-        ng-click="goToMyFridge()">My Fridge
-      </button>
-      <button 
-        class="button button-stable button-block icon-left ion-help-circled" 
-        ng-click="openLogin()">Random Recipe
-      </button>
-    </div>
+<!--ADV SEARCH-->
+  <div ng-hide="searchCompleted">
+    <p><u>Advanced Search</u></p>
+    <p ng-click="goToMyFridge()" class="pointer">
+      <i class="ion-arrow-right-b"></i> Search by ingredients in fridge
+    </p>
+    <p ng-click="random()" class="pointer">
+      <i class="ion-arrow-right-b"></i> Random recipe
+    </p>
   </div>
 <!--OUTPUT-->
   <div class="card" ng-hide="!searchCompleted">
@@ -65,6 +62,10 @@
         ng-hide="!previous" 
         class="button button-stable button-block" 
         ng-click="pagPrevious()">Previous
+      </button>
+      <button 
+        class="button button-light button-block" 
+        ng-click="reset()">Back
       </button>
     </div>
   </div>

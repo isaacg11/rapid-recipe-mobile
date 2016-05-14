@@ -1,5 +1,7 @@
 html, body {
 	font-family: "Righteous" !important;
+	color: #666666 !important;
+	background-color: #eeeeee !important;
 }
 /*COLORS*/
 .app-theme{
@@ -19,6 +21,7 @@ html, body {
 	color: #fff !important;
 	font-family: "Righteous" !important;
 }
+
 /*HELPERS*/
 .center{
 	text-align: center !important;
@@ -30,8 +33,9 @@ html, body {
 	margin-top: 0px !important;
 	margin-bottom: 0px !important;
 }
-.padding-bottom{
-	padding-bottom: 10px !important;
+.extra-padding{
+	padding-bottom: 20px !important;
+	padding-top: 20px !important;
 }
 .input-height{
 	height: 47px !important;
@@ -40,6 +44,10 @@ html, body {
 	width: 100%;
 	height: 1px;
 	background-color: #dddddd;
+}
+.hdr-font{
+	font-size: 20px;
+	color: #666666;
 }
 /*MISC*/
 .or{

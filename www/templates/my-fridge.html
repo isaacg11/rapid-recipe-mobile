@@ -1,10 +1,13 @@
 
-<ion-view view-title="My Fridge">
+<ion-view view-title="Rapid Recipe">
   <ion-content class="padding">
+    <div class="center">
+    <span class="hdr-font"><img src="/img/fridge.png"/>My Fridge</span>
+    </div>
 <!--FRIDGE CONTENTS SELECTION-->
     <div class="card" ng-hide="fridgeSearchCompleted">
       <div class="item item-text-wrap">
-        <p class="center padding-bottom">Enter the current ingredients in your fridge</p>
+        <p class="center extra-padding">Enter the current ingredients in your fridge</p>
         <div class="line"></div>
         <div class="list no-margin">
           <label class="item item-input item-stacked-label">
@@ -29,6 +32,13 @@
               placeholder="Carrots, Celery, Onion">
           </label>
           <label class="item item-input item-stacked-label">
+            <span class="input-label">Grains</span>
+            <input
+              ng-model="ingredient.grains"  
+              type="text" 
+              placeholder="Bread, Pasta, Cereal...">
+          </label>
+          <label class="item item-input item-stacked-label">
             <span class="input-label">Condiments</span>
             <input
               ng-model="ingredient.condiments"  
@@ -38,7 +48,7 @@
         </div>
         <div class="line"></div>
           <button 
-            class="button button-stable button-block" 
+            class="button button-dark button-block white" 
             ng-click="fridgeSearch(ingredient)">Find Recipes!
           </button>
           <button 
@@ -69,7 +79,7 @@
         </button>
         <button 
           class="button button-light button-block" 
-          ng-click="goToMyFridge()">Back
+          ng-click="backToMyFridge()">Back
         </button>
       </div>
     </div>
