@@ -52,7 +52,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   .state('myFridge', {
     url: '/myFridge',
-    templateUrl: 'templates/my-fridge.html'
+    templateUrl: 'templates/my-fridge.html',
+    controller: 'FridgeCtrl'
   })
 
   .state('tab.chats', {

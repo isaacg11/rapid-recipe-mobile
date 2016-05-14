@@ -138,10 +138,105 @@ angular.module('starter.controllers', [])
     $state.go('myFridge');
   };
 
+})
+
+.controller('FridgeCtrl', function(
+  $scope, 
+  $ionicModal, 
+  User, 
+  $ionicLoading, 
+  $ionicActionSheet, 
+  $state, 
+  Food,
+  $ionicScrollDelegate
+  ) {
+
+//GLOBAL VARS
+  var page = 1;
+  var data,
+      combinedIngredients;
+
+//SEARCH BY FRIDGE INGREDIENTS
+$scope.fridgeSearch = function(ingredient) {
+  $ionicLoading.show({
+    template: 'Loading...'
+  }); 
+  combinedIngredients = ingredient.meat+","+ingredient.dairy+","+ingredient.vegetables+","+ingredient.condiments;
+
+  data = {
+    query : combinedIngredients,
+    page: 1
+  };
+
+  Food.getRecipes(data).then(function(res){
+    $scope.recipes = res.body.recipes;
+    $scope.fridgeSearchCompleted = true;
+    $ionicLoading.hide();
+    if(res.body.recipes.length < 30){
+      $scope.next = false;
+    }
+    else{
+      $scope.next = true;
+    }
+  });
+};
+
+//PAGINATE - NEXT
+  $scope.pagNext = function() {
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
+    page = page + 1;
+    data = {
+      query : data.query,
+      page: page
+    };
+    Food.getRecipes(data).then(function(res){
+      $scope.recipes = res.body.recipes;
+      $ionicScrollDelegate.scrollTop();
+      $ionicLoading.hide();
+      $scope.next = true;
+      if(page > 1) {
+        $scope.previous = true;
+      }
+    });
+  };
+
+//PAGINATE - PREVIOUS
+  $scope.pagPrevious = function() {
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
+    page = page - 1;
+    data = {
+      query : data.query,
+      page: page
+    };
+    Food.getRecipes(data).then(function(res){
+      $scope.recipes = res.body.recipes;
+      $ionicScrollDelegate.scrollTop();
+      $ionicLoading.hide();
+      $scope.next = true;
+      if(page > 1) {
+        $scope.previous = true;
+      }
+      else{
+        $scope.previous = false;
+      }
+    });
+  };
+
+
+  $scope.goToMyFridge = function() {
+    $scope.fridgeSearchCompleted = false;
+    
+  };
+
   $scope.goToDash = function() {
     $state.go('tab.dash');
   };
- 
+
+
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats, $ionicActionSheet) {

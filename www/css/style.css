@@ -30,6 +30,9 @@ html, body {
 	margin-top: 0px !important;
 	margin-bottom: 0px !important;
 }
+.padding-bottom{
+	padding-bottom: 10px !important;
+}
 .input-height{
 	height: 47px !important;
 }

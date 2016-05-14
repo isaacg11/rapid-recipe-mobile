@@ -1,46 +1,77 @@
 
 <ion-view view-title="My Fridge">
   <ion-content class="padding">
-
-    <!--FRIDGE CONTENTS SELECTION-->
-    <div class="card" ng-hide="searchCompleted">
+<!--FRIDGE CONTENTS SELECTION-->
+    <div class="card" ng-hide="fridgeSearchCompleted">
       <div class="item item-text-wrap">
-        <p>Enter current ingredients in your fridge</p>
+        <p class="center padding-bottom">Enter the current ingredients in your fridge</p>
         <div class="line"></div>
         <div class="list no-margin">
           <label class="item item-input item-stacked-label">
             <span class="input-label">Meat</span>
-            <input type="text" placeholder="Beef, Chicken, Bacon...">
+            <input
+              ng-model="ingredient.meat" 
+              type="text" 
+              placeholder="Beef, Chicken, Bacon...">
           </label>
           <label class="item item-input item-stacked-label">
             <span class="input-label">Dairy</span>
-            <input type="text" placeholder="Cheese, Milk, Eggs...">
+            <input
+              ng-model="ingredient.dairy"  
+              type="text" 
+              placeholder="Cheese, Milk, Eggs...">
           </label>
           <label class="item item-input item-stacked-label">
             <span class="input-label">Vegetables</span>
-            <input type="text" placeholder="Carrots, Celery, Onion">
+            <input
+              ng-model="ingredient.vegetables"  
+              type="text" 
+              placeholder="Carrots, Celery, Onion">
           </label>
           <label class="item item-input item-stacked-label">
             <span class="input-label">Condiments</span>
-            <input type="text" placeholder="Hot sauce, Ketchup, Mustard...">
+            <input
+              ng-model="ingredient.condiments"  
+              type="text" 
+              placeholder="Hot sauce, Ketchup, Mustard...">
           </label>
         </div>
         <div class="line"></div>
           <button 
             class="button button-stable button-block" 
-            ng-click="pagNext()">Find Recipes!
+            ng-click="fridgeSearch(ingredient)">Find Recipes!
           </button>
-          <div class="center">
-            <a ng-click="goToDash()" class="pointer">Back</a>
-          </div>
+          <button 
+            class="button button-light button-block" 
+            ng-click="goToDash()">Back
+          </button>
       </div>
     </div>
-
-      <!--FRIDGE CONTENTS SELECTION-->
-<!--     <div class="card" ng-hide="searchCompleted">
+<!--OUTPUT-->
+    <div class="card" ng-hide="!fridgeSearchCompleted">
       <div class="item item-text-wrap">
-        <p>Find recipes based on the ingredients you currently have in your fridge!</p>
+        <div class="list no-margin">
+          <a class="item item-thumbnail-left" href="#" ng-repeat="r in recipes">
+            <img ng-src="{{r.image_url}}">
+            <h2>{{r.title}}</h2>
+          </a>
+        </div>
+        <div class="line"></div>
+        <button
+          ng-hide="!next" 
+          class="button button-stable button-block" 
+          ng-click="pagNext()">Next
+        </button>
+        <button
+          ng-hide="!previous" 
+          class="button button-stable button-block" 
+          ng-click="pagPrevious()">Previous
+        </button>
+        <button 
+          class="button button-light button-block" 
+          ng-click="goToMyFridge()">Back
+        </button>
       </div>
-    </div> -->
+    </div>
   </ion-content>
 </ion-view> 
