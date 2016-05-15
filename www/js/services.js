@@ -45,6 +45,15 @@ angular.module('starter.services', [])
         console.log(err);
       });
       return q.promise;
+    },
+    getDetails : function(rId){
+      var q = $q.defer();
+      Stamplay.Codeblock("details").run(rId).then(function(err) {
+        q.resolve(err);
+      }, function(err) {
+        console.log(err);
+      });
+      return q.promise;
     }
   };
 }])

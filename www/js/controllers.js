@@ -27,8 +27,33 @@ angular.module('starter.controllers', [])
 
     Food.getRecipes(data).then(function(res){
       $scope.recipes = res.body.recipes;
+      $scope.hideOptions = true;
       $scope.searchCompleted = true;
       $scope.next = true;
+      $ionicLoading.hide();
+    });
+  };
+
+//VIEW RECIPE DETAILS
+  $scope.viewRecipe = function(recipe) {
+    $ionicLoading.show({
+      template: 'Loading...'
+    }); 
+
+    var rId = {
+      id : recipe.recipe_id,
+    };
+
+    Food.getDetails(rId).then(function(res){
+      console.log(res);
+      var info = [];
+      info.push(res.body.recipe);
+      $scope.details = info;
+      $scope.ingredients = res.body.recipe.ingredients;
+      $scope.hideOptions = true;
+      $scope.searchCompleted = false;
+      $scope.detailsCompleted = true;
+      $ionicScrollDelegate.scrollTop();
       $ionicLoading.hide();
     });
   };
@@ -180,16 +205,16 @@ angular.module('starter.controllers', [])
 
     Food.getRecipes(data).then(function(res){
       $scope.recipes = res.body.recipes;
+      $scope.hideOptions = true;
       $scope.searchCompleted = true;
       $scope.next = true;
       $ionicLoading.hide();
     });
   };
 
-
 //RESET SEARCH
   $scope.reset = function() {
-    $scope.searchCompleted = false;
+    window.location.reload(true);
   };
 
 })

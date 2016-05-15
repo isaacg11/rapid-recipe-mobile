@@ -8,6 +8,10 @@ html, body {
 	background-color: #ff8533 !important;
 	color: #fff !important;
 }
+.app-font{
+	font-family: "Righteous" !important;
+	color: #666666 !important;
+}
 .fb-theme{
 	background-color: #3B5998;
 	color: #fff;
@@ -37,6 +41,10 @@ html, body {
 	padding-bottom: 20px !important;
 	padding-top: 20px !important;
 }
+.extra-margin{
+	margin-top: 10px !important;
+	margin-bottom: 10px !important;
+}
 .input-height{
 	height: 47px !important;
 }
@@ -53,4 +61,8 @@ html, body {
 .or{
 	padding-top: 15px;
 	padding-bottom: 15px;
+}
+.recipe-img{
+	width: 100% !important;
+	height: 30vh !important;
 }
