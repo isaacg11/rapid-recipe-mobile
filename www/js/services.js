@@ -54,6 +54,15 @@ angular.module('starter.services', [])
         console.log(err);
       });
       return q.promise;
+    },
+    addRecipe : function(newRecipe){
+      var q = $q.defer();
+      Stamplay.Object("recipe").save(newRecipe).then(function(res) {
+        q.resolve(res);
+      }, function(err) {
+        console.log(err);
+      });
+      return q.promise;
     }
   };
 }])

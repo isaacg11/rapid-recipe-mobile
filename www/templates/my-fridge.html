@@ -5,7 +5,7 @@
     <span class="hdr-font"><img src="/img/fridge.png"/>My Fridge</span>
     </div>
 <!--FRIDGE CONTENTS SELECTION-->
-    <div class="card" ng-hide="fridgeSearchCompleted">
+    <div class="card" ng-hide="hideOptions">
       <div class="item item-text-wrap">
         <p class="center extra-padding">Enter the current ingredients in your fridge</p>
         <div class="line"></div>
@@ -61,7 +61,10 @@
     <div class="card" ng-hide="!fridgeSearchCompleted">
       <div class="item item-text-wrap">
         <div class="list no-margin">
-          <a class="item item-thumbnail-left" href="#" ng-repeat="r in recipes">
+          <a 
+            class="item item-thumbnail-left" 
+            ng-click="viewFridgeRecipe(r.recipe_id)"
+            ng-repeat="r in recipes">
             <img ng-src="{{r.image_url}}">
             <h2>{{r.title}}</h2>
           </a>
@@ -83,5 +86,35 @@
         </button>
       </div>
     </div>
+<!--DETAILS OUTPUT-->
+    <div class="list card" ng-hide="!detailsCompleted" ng-repeat="d in details">
+      <div class="item">
+        <h2 class="app-font">{{d.title}}</h2>
+        <p>Publisher: {{d.publisher}}</p>
+      </div>
+      <div class="item item-body">
+        <img class="recipe-img" ng-src="{{d.image_url}}">
+        <h2 class="app-font"><u>Ingredients Required</u></h2>
+        <div ng-repeat="i in ingredients">
+          <ol>
+            <li><p>- {{i}}</p></li>
+          </ol>
+        </div>
+        <div class="line extra-margin"></div>
+        <button 
+          class="button button-dark button-block white" 
+          ng-click="goToInstructions(d.source_url)">Cooking Instructions
+        </button>
+        <button 
+          class="button button-dark button-block white" 
+          ng-click="pagNext()">Save Recipe
+        </button>
+        <button 
+          class="button button-light button-block" 
+          ng-click="reset()">Back
+        </button>
+      </div>
+    </div>
+    
   </ion-content>
 </ion-view> 

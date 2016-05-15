@@ -45,7 +45,6 @@ angular.module('starter.controllers', [])
     };
 
     Food.getDetails(rId).then(function(res){
-      console.log(res);
       var info = [];
       info.push(res.body.recipe);
       $scope.details = info;
@@ -217,6 +216,28 @@ angular.module('starter.controllers', [])
     window.location.reload(true);
   };
 
+//GO TO COOKING INSTRUCTIONS
+  $scope.goToInstructions = function(url) {
+    window.location = url;
+  };
+
+  $scope.saveRecipe = function(instructions) {
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
+
+    var newRecipe = {
+      title: instructions.title,
+      image: instructions.image_url,
+      rId: instructions.recipe_id
+    };
+
+    Food.addRecipe(newRecipe).then(function(res){
+      $ionicLoading.hide();
+      toastr.success('Recipe Saved!');
+    });
+  };
+
 })
 
 .controller('FridgeCtrl', function(
@@ -249,6 +270,7 @@ $scope.fridgeSearch = function(ingredient) {
 
   Food.getRecipes(data).then(function(res){
     $scope.recipes = res.body.recipes;
+    $scope.hideOptions = true;
     $scope.fridgeSearchCompleted = true;
     $ionicLoading.hide();
     if(res.body.recipes.length < 30){
@@ -305,14 +327,39 @@ $scope.fridgeSearch = function(ingredient) {
     });
   };
 
-
+//NAVIGATE BACK TO FRIDGE VIEW
   $scope.backToMyFridge = function() {
     $scope.fridgeSearchCompleted = false;
 
   };
 
+//NAVIGATE TO SEARCH VIEW
   $scope.goToDash = function() {
     $state.go('tab.dash');
+  };
+
+//VIEW FRIDGE RECIPE DETAILS
+  $scope.viewFridgeRecipe = function(recipeId) {
+    $ionicLoading.show({
+      template: 'Loading...'
+    }); 
+
+    var rId = {
+      id : recipeId,
+    };
+
+    Food.getDetails(rId).then(function(res){
+      console.log(res);   
+      var info = [];
+      info.push(res.body.recipe);
+      $scope.details = info;
+      $scope.ingredients = res.body.recipe.ingredients;
+      $scope.hideOptions = true;
+      $scope.fridgeSearchCompleted = false;
+      $scope.detailsCompleted = true;
+      $ionicScrollDelegate.scrollTop();
+      $ionicLoading.hide();
+    });
   };
 
 
