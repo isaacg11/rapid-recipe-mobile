@@ -56,12 +56,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services',])
     controller: 'FridgeCtrl'
   })
 
-  .state('tab.chats', {
-      url: '/chats',
+  .state('tab.recipes', {
+      url: '/recipes',
       views: {
         'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
+          templateUrl: 'templates/tab-recipes.html',
+          controller: 'recipesCtrl'
         }
       }
     })

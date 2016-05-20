@@ -1,0 +1,66 @@
+<ion-view view-title="Rapid Recipe">
+  <ion-content class="padding light-gray">
+    <div class="card center no-margin">
+      <div class="item">
+        <span class="hdr-font"><img src="/img/hat.png"/>My Recipes</span>
+      </div>
+    </div>
+    <div class="line"></div>
+<!--INITIAL MESSAGE-->
+    <div class="list card no-margin" ng-hide="hideMessage">
+      <div class="item item-avatar">
+        <img src="img/cooker.png">
+        <h3></h3>
+        <p>Uh oh! You have no saved recipes.<br>
+        Here's how to save new recipes</p>
+        <br>
+        <p>(1) Search for a recipe</p>
+        <p>(2) Click the 'Save Recipe' button</p>
+        <p>(3) That's it! Bon appetite!</p>
+      </div>
+    </div>
+    <!--RECIPES OUTPUT-->
+    <div class="card no-margin" ng-hide="!searchCompleted">
+      <div class="item item-text-wrap">
+        <div class="list no-margin">
+          <a 
+            class="item item-thumbnail-left" 
+            ng-click="viewRecipe(s, $index)" 
+            ng-repeat="s in saved track by $index">
+            <img ng-src="{{s.image}}">
+            <h2>{{s.title}}</h2>
+          </a>
+        </div>
+      </div>
+    </div>
+<!--DETAILS OUTPUT-->
+    <div class="list card no-margin" ng-hide="!detailsCompleted" ng-repeat="d in details">
+      <div class="item">
+        <h2 class="app-font">{{d.title}}</h2>
+        <p>Publisher: {{d.publisher}}</p>
+      </div>
+      <div class="item item-body">
+        <img class="recipe-img" ng-src="{{d.image_url}}">
+        <h2 class="app-font"><u>Ingredients Required</u></h2>
+        <div ng-repeat="i in ingredients">
+          <ol>
+            <li><p>- {{i}}</p></li>
+          </ol>
+        </div>
+        <div class="line extra-margin"></div>
+        <button 
+          class="button button-dark button-block white" 
+          ng-click="goToInstructions(d.source_url)">Cooking Instructions
+        </button>
+        <button 
+          class="button button-assertive button-block white" 
+          ng-click="deleteRecipe(d)">Delete
+        </button>
+        <button 
+          class="button button-light button-block" 
+          ng-click="reset()">Back
+        </button>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

@@ -1,7 +1,6 @@
 html, body {
 	font-family: "Righteous" !important;
 	color: #666666 !important;
-	background-color: #eeeeee !important;
 }
 /*COLORS*/
 .app-theme{
@@ -25,6 +24,12 @@ html, body {
 	color: #fff !important;
 	font-family: "Righteous" !important;
 }
+.light-gray{
+	background-color: #FAFAFA !important;
+}
+.dark-gray{
+	background-color: #EFF1F5 !important;
+}
 
 /*HELPERS*/
 .center{
@@ -44,6 +49,9 @@ html, body {
 .extra-margin{
 	margin-top: 10px !important;
 	margin-bottom: 10px !important;
+}
+.extra-margin-top{
+	margin-top: 100px !important;
 }
 .input-height{
 	height: 47px !important;
@@ -65,4 +73,8 @@ html, body {
 .recipe-img{
 	width: 100% !important;
 	height: 30vh !important;
+}
+.userImg{
+	max-height: 200px !important;
+	max-width: 200px !important;
 }

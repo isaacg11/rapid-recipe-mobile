@@ -18,7 +18,7 @@
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
-    <script src="https://drrjhlchpvi7e.cloudfront.net/libs/stamplay-js-sdk/2.0.6/stamplay.min.js"></script>
+    <script src="https://drrjhlchpvi7e.cloudfront.net/libs/stamplay-js-sdk/2.0.7/stamplay.min.js"></script>
     <script src="./lib/jquery/dist/jquery.js"></script>
     <script src="./lib/toastr/toastr.js"></script>
     <script>
@@ -69,15 +69,15 @@
             <div class="item item-text-wrap">
             <label class="item item-input">
               <span class="input-label">Email</span>
-              <input ng-model="newUser.firstName" type="text">
+              <input ng-model="cook.email" type="text">
             </label>
             <label class="item item-input">
               <span class="input-label">Password</span>
-              <input ng-model="newUser.lastName" type="text">
+              <input ng-model="cook.password" type="text">
             </label>
             <button 
               class="button button-full button-stable" 
-              ng-click="createContact(newUser)">Submit
+              ng-click="login(cook)">Submit
             </button>
             </div>
           </div>

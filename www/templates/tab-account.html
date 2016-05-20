@@ -1,9 +1,60 @@
-<ion-view view-title="Account">
-  <ion-content>
-    <ion-list>
-    <ion-toggle  ng-model="settings.enableFriends">
-        Enable Friends
-    </ion-toggle>
-    </ion-list>
-  </ion-content>
+<ion-view view-title="Rapid Recipe">
+	<ion-content class="padding light-gray">
+		<div class="list card no-margin">
+  			<div class="item">
+    			<span class="hdr-font"><img src="/img/profile.png"/> My Account</span>
+  			</div>
+  			<div class="item center dark-gray">
+    			<img src="img/user.png" class="userImg">
+  			</div>
+        	<ul class="list">
+        		<li class="item center">
+     				<u>Options</u>
+  				</li>
+  				<li class="item item-toggle">
+     				Email me weekly recipes
+     				<label class="toggle toggle-success">
+       					<input 
+       						type="checkbox" 
+       						ng-model="optionEmail" 
+       						ng-change="emailRecipes(optionEmail)">
+       					<div class="track">
+         					<div class="handle"></div>
+       					</div>
+     				</label>
+  				</li>
+  				<li class="item item-toggle">
+     				Text me weekly recipes
+     				<label class="toggle toggle-success">
+       					<input 
+       						type="checkbox"
+       						ng-model="optionText" 
+       						ng-change="textRecipes(optionText)">
+       					<div class="track">
+         					<div class="handle"></div>
+       					</div>
+     				</label>
+  				</li>
+  				<li class="item">
+     				<button 
+        				class="button button-dark button-block" 
+        				ng-click="pagNext()">Logout
+      				</button>
+     				</label>
+  				</li>
+			</ul>
+		</div>
+ 		<!-- <div class="card center no-margin">
+      		<div class="item">
+        		<span class="hdr-font"><img src="/img/profile.png"/> My Account</span>
+      		</div>
+    	</div>
+    	<div class="list list-inset no-margin">
+      		<div class="list center">
+        		<a ng-click="trending()" class="item">
+          			Logout
+        		</a>
+      		</div>
+    	</div> -->
+	</ion-content>
 </ion-view>

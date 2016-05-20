@@ -1,7 +1,7 @@
-<ion-view view-title="Rapid Recipe">
-  <ion-content class="padding">
+<ion-view view-title="Rapid Recipe" class="light-gray">
+  <ion-content class="padding" id="scrollArea">
 <!--LOGIN SECTION-->
-  <div class="card" ng-hide="loggedIn">
+  <div class="card no-margin" ng-hide="loggedIn">
     <div class="item item-text-wrap">
       <p>Please sign in to continue</p>
       <button class="button button-block icon-left ion-social-facebook fb-theme">Facebook</button>
@@ -15,8 +15,8 @@
     </div>
   </div>
 <!--SEARCH-->
-<toaster-container></toaster-container>
-  <div class="card" ng-hide="!loggedIn">
+  <toaster-container></toaster-container>
+  <div class="card no-margin" ng-hide="hideSearch">
     <div class="list list-inset no-margin">
       <div class="list">
         <div class="item item-input-inset">
@@ -32,21 +32,20 @@
             class="button button-small input-height">Submit
           </button>
         </div>
+        <a ng-click="trending()" class="item item-icon-left">
+          <i class="icon ion-star"></i>
+          Trending recipes
+        </a>
+        <a ng-click="random()" class="item item-icon-left">
+          <i class="icon ion-help-circled"></i>
+          Suprise me with random recipes
+        </a>
+        <a ng-click="goToMyFridge()" class="item item-icon-left">
+          <i class="icon ion-ios-nutrition"></i>
+            Search by ingredients in fridge
+        </a>
       </div>
     </div>
-  </div>
-<!--ADV SEARCH-->
-  <div ng-hide="hideOptions">
-    <p><u>Advanced Search</u></p>
-    <p ng-click="goToMyFridge()" class="pointer">
-      <i class="ion-arrow-right-b"></i> Search by ingredients in fridge
-    </p>
-    <p ng-click="random()" class="pointer">
-      <i class="ion-arrow-right-b"></i> Trending recipes
-    </p>
-    <p ng-click="random()" class="pointer">
-      <i class="ion-arrow-right-b"></i> Random recipes
-    </p>
   </div>
 <!--RECIPES OUTPUT-->
   <div class="card" ng-hide="!searchCompleted">
@@ -104,6 +103,11 @@
         ng-click="reset()">Back
       </button>
     </div>
+  </div>
+<!--COOKING BOWL ICON-->
+  <div class="center extra-margin-top" ng-hide="hideIcon">
+    <img src="img/bowl.png"/>
+    <p class="app-font">What's Cooking?</p>
   </div>
 
   </ion-content>

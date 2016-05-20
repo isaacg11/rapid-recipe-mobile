@@ -11,6 +11,23 @@ angular.module('starter.controllers', [])
   $ionicScrollDelegate
   ) {  
 
+
+//ON PAGE LOAD, GET CURRENT USER
+  User.getUser().then(function(res){
+    if(res === 'not logged in') {
+      $scope.searchCompleted = true;
+    }
+    else{
+      $scope.loggedIn = true;
+    }
+  });
+
+  // $scope.logout = function() {
+  //   User.endSession().then(function(){
+  //     console.log('logout success!');
+  //   });
+  // };
+
 //SEARCH BY TEXT
   var page = 1;
   var data;
@@ -24,11 +41,12 @@ angular.module('starter.controllers', [])
       query : query.text,
       page: 1
     };
-
     Food.getRecipes(data).then(function(res){
       $scope.recipes = res.body.recipes;
-      $scope.hideOptions = true;
       $scope.searchCompleted = true;
+      $scope.detailsCompleted = false;
+      $scope.hideSearch = true;
+      $scope.hideIcon = true;
       $scope.next = true;
       $ionicLoading.hide();
     });
@@ -49,9 +67,10 @@ angular.module('starter.controllers', [])
       info.push(res.body.recipe);
       $scope.details = info;
       $scope.ingredients = res.body.recipe.ingredients;
-      $scope.hideOptions = true;
       $scope.searchCompleted = false;
       $scope.detailsCompleted = true;
+      $scope.hideSearch = true;
+      $scope.hideIcon = true;
       $ionicScrollDelegate.scrollTop();
       $ionicLoading.hide();
     });
@@ -102,37 +121,6 @@ angular.module('starter.controllers', [])
     });
   };
 
-//ON PAGE LOAD, GET CURRENT USER
-  $scope.loggedIn = true;
-
-  // User.getUser().then(function(res){
-  //   if(res === 'not logged in') {
-  //     console.log('not logged in');
-  //   }
-  //   else{
-  //     $scope.loggedIn = true;
-  //   }
-  // });
-
-//SIGNUP
-  $scope.signup = function(userInfo) {
-    $ionicLoading.show({
-      template: 'Loading...'
-    });
-    User.registerUser(userInfo).then(function(res){
-      console.log(res);
-      $scope.signupModal.hide();
-      $ionicLoading.hide();
-      $scope.user = true;
-    });
-  };
-
-  $scope.logout = function() {
-    User.endSession().then(function(){
-      console.log('logout success!');
-    });
-  };
-
 //LOGIN MODAL
   $ionicModal.fromTemplateUrl('login-modal.html', {
     scope: $scope,
@@ -143,6 +131,18 @@ angular.module('starter.controllers', [])
 
   $scope.openLogin = function() {
     $scope.loginModal.show();
+  };
+
+  $scope.login = function(userInfo) {
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
+    User.loginUser(userInfo).then(function(res){
+      console.log(res);
+      $scope.loginModal.hide();
+      $ionicLoading.hide();
+      $scope.user = true;
+    });
   };
 
 //SIGNUP MODAL
@@ -157,12 +157,23 @@ angular.module('starter.controllers', [])
     $scope.signupModal.show();
   };
 
+  $scope.signup = function(userInfo) {
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
+    User.registerUser(userInfo).then(function(res){
+      $scope.signupModal.hide();
+      $ionicLoading.hide();
+      $scope.user = true;
+    });
+  };
+
 //NAVIGATE TO MY FRIDGE
   $scope.goToMyFridge = function() {
     $state.go('myFridge');
   };
 
-//RANDOM RECIPE
+//RANDOM RECIPES
   var ingredients,
       num;
 
@@ -204,12 +215,33 @@ angular.module('starter.controllers', [])
 
     Food.getRecipes(data).then(function(res){
       $scope.recipes = res.body.recipes;
-      $scope.hideOptions = true;
       $scope.searchCompleted = true;
+      $scope.hideSearch = true;
+      $scope.hideIcon = true;
       $scope.next = true;
       $ionicLoading.hide();
     });
   };
+
+//TRENDING RECIPES
+  $scope.trending = function() {
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
+    data = {
+      page: 1
+    };
+    Food.getTrending(data).then(function(res){
+      console.log(res);
+      $scope.recipes = res.body.recipes;
+      $scope.searchCompleted = true;
+      $scope.hideSearch = true;
+      $scope.hideIcon = true;
+      $scope.next = true;
+      $ionicLoading.hide();
+    });
+  };
+
 
 //RESET SEARCH
   $scope.reset = function() {
@@ -330,7 +362,7 @@ $scope.fridgeSearch = function(ingredient) {
 //NAVIGATE BACK TO FRIDGE VIEW
   $scope.backToMyFridge = function() {
     $scope.fridgeSearchCompleted = false;
-
+    $scope.hideOptions = false;
   };
 
 //NAVIGATE TO SEARCH VIEW
@@ -365,48 +397,185 @@ $scope.fridgeSearch = function(ingredient) {
 
 })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats, $ionicActionSheet) {
-    // Show the action sheet
-
-  $scope.show = function() {
-  var hideSheet = $ionicActionSheet.show({
-    buttons: [
-      { text: 'Yes, Logout' },
-    ],
-    titleText: 'Would you like to exit app?',
-    cancelText: 'Cancel',
-    cancel: function() {          
-      },
-    buttonClicked: function(index) {
-      User.endSession();
-     }
+.controller('recipesCtrl', function($scope, $ionicLoading, $ionicScrollDelegate, User, Food) {
+//ON PAGE LOAD, GET CURRENT USER
+  User.getUser().then(function(res){
+    $ionicLoading.show({
+      template: 'Loading...'
+    }); 
+    Food.getSavedRecipes(res.user.id).then(function(res){
+      if(res.data.length === 0){
+        $ionicLoading.hide();
+      }
+      else{
+        $scope.saved = res.data;
+        $scope.searchCompleted = true;
+        $scope.hideMessage = true;
+        $ionicLoading.hide();
+      }
+    });
   });
+//VIEW RECIPE DETAILS
+  var objId,
+      ind;
+
+  $scope.viewRecipe = function(recipe, index) {
+    $ionicLoading.show({
+      template: 'Loading...'
+    }); 
+
+    var rId = {
+      id : recipe.rId,
+    };
+
+    objId = recipe.id;
+    ind = index;
+
+    Food.getDetails(rId).then(function(res){
+      var info = [];
+      info.push(res.body.recipe);
+      $scope.details = info;
+      $scope.ingredients = res.body.recipe.ingredients;
+      $scope.searchCompleted = false;
+      $scope.detailsCompleted = true;
+      $ionicScrollDelegate.scrollTop();
+      $ionicLoading.hide();
+    });
+  };
+//DELETE RECIPE
+  $scope.deleteRecipe = function() {
+    $ionicLoading.show({
+      template: 'Loading...'
+    }); 
+
+    Food.removeRecipe(objId).then(function(res){
+      $scope.saved.splice(ind, 1);
+      $scope.detailsCompleted = false;
+      $ionicLoading.hide();
+      toastr.success('Recipe Deleted!');
+    });
   };
 
-  $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('ChatsCtrl', function($scope, Chats) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
+.controller('AccountCtrl', function($scope, $ionicLoading, $ionicPopup, User) {
+//ON PAGE LOAD, GET CURRENT USER
+  var userId,
+      userEmail,
+      info,
+      status;
 
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
+  User.getUser().then(function(res){
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
+
+    userId = res.user.id;
+    userEmail = res.user.email;
+    $scope.optionEmail = res.user.email_sub;
+    $scope.optionText = res.user.text_sub;
+    $ionicLoading.hide();
+  });
+
+//SUBSCRIBE TOGGLE > EMAIL RECIPES
+  $scope.emailRecipes = function(email) {
+    if(email === true) {
+      info = {
+        email: userEmail,
+      };
+
+      User.activateEmail(info).then(function(){
+        status = {
+          email_sub: true
+        };
+
+        User.changeStatus(status, userId).then(function(){
+          toastr.success("Email Activated");
+        });
+      });
+    }
+    else{
+      info = {
+        email: userEmail,
+      };
+
+      User.getActiveEmail(info).then(function(res){
+        User.disableEmail(res.data[0]._id).then(function(){
+          status = {
+            email_sub: false
+          };
+
+          User.changeStatus(status, userId).then(function(){
+            toastr.success("Email Disabled");
+          });
+        });
+      });
+    }
   };
-})
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
+//SUBSCRIBE TOGGLE > TEXT RECIPES
+  $scope.textRecipes = function(text) {
+    if(text === true) {
+      $scope.data = {};
 
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
+      var myPopup = $ionicPopup.show({
+        template: '<input type="text" ng-model="data.number">',
+        title: 'Enter Phone Number',
+        subTitle: 'i.e 1234567890',
+        scope: $scope,
+        buttons: [
+          { text: 'Cancel' },
+          {
+            text: '<b>Submit</b>',
+            type: 'button-dark',
+            onTap: function(e) {
+              if (!$scope.data.number) {
+                toastr.error('Please enter phone number');
+                e.preventDefault();
+              } else {
+                var data = $scope.data.number;
+                processTextSub(data);
+              }
+            }
+          }
+        ]}
+      );
+    }
+    else{
+      info = {
+        email: userEmail,
+      };
+
+      User.getActiveText(info).then(function(res){
+        User.disableText(res.data[0]._id).then(function(){
+          status = {
+            text_sub: true
+          };
+
+          User.changeStatus(status, userId).then(function(){
+            toastr.success("Texts Disabled");
+          });
+        });
+      });
+    }
   };
+
+  function processTextSub(number) {
+    info = {
+      phone: number,
+      email: userEmail
+    };
+
+    User.activateText(info).then(function(){
+        status = {
+          text_sub: true
+        };
+
+        User.changeStatus(status, userId).then(function(){
+          toastr.success("Texts Activated");
+        });
+    });
+  }
+
+
 });

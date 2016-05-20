@@ -1,11 +1,14 @@
 
 <ion-view view-title="Rapid Recipe">
-  <ion-content class="padding">
-    <div class="center">
-    <span class="hdr-font"><img src="/img/fridge.png"/>My Fridge</span>
+  <ion-content class="padding light-gray">
+    <div class="card center no-margin">
+      <div class="item">
+        <span class="hdr-font"><img src="/img/fridge.png"/>My Fridge</span>
+      </div>
     </div>
+    <div class="line"></div>
 <!--FRIDGE CONTENTS SELECTION-->
-    <div class="card" ng-hide="hideOptions">
+    <div class="card no-margin" ng-hide="hideOptions">
       <div class="item item-text-wrap">
         <p class="center extra-padding">Enter the current ingredients in your fridge</p>
         <div class="line"></div>
@@ -58,7 +61,7 @@
       </div>
     </div>
 <!--OUTPUT-->
-    <div class="card" ng-hide="!fridgeSearchCompleted">
+    <div class="card no-margin" ng-hide="!fridgeSearchCompleted">
       <div class="item item-text-wrap">
         <div class="list no-margin">
           <a 

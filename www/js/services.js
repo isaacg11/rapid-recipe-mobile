@@ -30,6 +30,68 @@ angular.module('starter.services', [])
         q.resolve();
       });
       return q.promise;
+    },
+    loginUser: function(userInfo) {
+      var q = $q.defer();
+      Stamplay.User.login(userInfo).then(function(){
+        q.resolve();
+      }, function(err) {
+        console.log(err);
+      });
+      return q.promise;
+    },
+    getActiveEmail: function(info) {
+      var q = $q.defer();
+      Stamplay.Query('object','email_subscriber').equalTo('email', info.email)
+      .exec(function(err, res){
+        if(err) return console.log(err);
+        q.resolve(res);
+      });
+      return q.promise;
+    },
+    activateEmail: function(info) {
+      var q = $q.defer();
+      Stamplay.Object('email_subscriber').save(info).then(function(){
+        q.resolve();
+      });
+      return q.promise;
+    },
+    disableEmail: function(id) {
+      var q = $q.defer();
+      Stamplay.Object('email_subscriber').remove(id).then(function(){
+        q.resolve();
+      });
+      return q.promise;
+    },
+    getActiveText: function(info) {
+      var q = $q.defer();
+      Stamplay.Query('object','text_subscriber').equalTo('email', info.email)
+      .exec(function(err, res){
+        if(err) return console.log(err);
+        q.resolve(res);
+      });
+      return q.promise;
+    },
+    activateText: function(info) {
+      var q = $q.defer();
+      Stamplay.Object('text_subscriber').save(info).then(function(){
+        q.resolve();
+      });
+      return q.promise;
+    },
+    disableText: function(id) {
+      var q = $q.defer();
+      Stamplay.Object('text_subscriber').remove(id).then(function(){
+        q.resolve();
+      });
+      return q.promise;
+    },
+    changeStatus : function(status, id){
+      var q = $q.defer();
+      Stamplay.User.update(id, status).then(function() {
+        q.resolve();
+      });
+      return q.promise;
     }
   };
 }])
@@ -40,6 +102,15 @@ angular.module('starter.services', [])
     getRecipes : function(data){
       var q = $q.defer();
       Stamplay.Codeblock("recipes").run(data).then(function(err) {
+        q.resolve(err);
+      }, function(err) {
+        console.log(err);
+      });
+      return q.promise;
+    },
+    getTrending : function(data){
+      var q = $q.defer();
+      Stamplay.Codeblock("trending").run(data).then(function(err) {
         q.resolve(err);
       }, function(err) {
         console.log(err);
@@ -63,56 +134,25 @@ angular.module('starter.services', [])
         console.log(err);
       });
       return q.promise;
+    },
+    getSavedRecipes : function(id){
+      var q = $q.defer();
+      Stamplay.Query('object','recipe').equalTo('owner', id)
+      .exec(function(err, res){
+        if(err) return console.log(err);
+        q.resolve(res);
+      });
+      return q.promise;
+    },
+    removeRecipe : function(id){
+      var q = $q.defer();
+      Stamplay.Object("recipe").remove(id).then(function(res) {
+        q.resolve(res);
+      }, function(err) {
+        console.log(err);
+      });
+      return q.promise;
     }
   };
-}])
+}]);
 
-
-.factory('Chats', function() {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  var chats = [{
-    id: 0,
-    name: 'Ben Sparrow',
-    lastText: 'You on your way?',
-    face: 'img/ben.png'
-  }, {
-    id: 1,
-    name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
-    face: 'img/max.png'
-  }, {
-    id: 2,
-    name: 'Adam Bradleyson',
-    lastText: 'I should buy a boat',
-    face: 'img/adam.jpg'
-  }, {
-    id: 3,
-    name: 'Perry Governor',
-    lastText: 'Look at my mukluks!',
-    face: 'img/perry.png'
-  }, {
-    id: 4,
-    name: 'Mike Harrington',
-    lastText: 'This is wicked good ice cream.',
-    face: 'img/mike.png'
-  }];
-
-  return {
-    all: function() {
-      return chats;
-    },
-    remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
-    },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
-        }
-      }
-      return null;
-    }
-  };
-});
